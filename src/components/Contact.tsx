@@ -1,39 +1,49 @@
-<form action="https://formsubmit.co/sofiancegrafic@gmail.com" method="POST" class="contact-form">
-  <!-- Nom complet -->
-  <div class="form-group">
-    <input type="text" name="Nom complet" required placeholder="Votre nom">
-  </div>
+// src/components/Contact.tsx
 
-  <!-- Email -->
-  <div class="form-group">
-    <input type="email" name="Email" required placeholder="Votre email">
-  </div>
+export default function Contact() {
+  return (
+    <form
+      action="https://formsubmit.co/sofiancegrafic@gmail.com"
+      method="POST"
+      className="contact-form"
+    >
+      {/* Nom complet */}
+      <div className="form-group">
+        <input
+          type="text"
+          name="Nom complet"
+          required
+          placeholder="Votre nom"
+        />
+      </div>
 
-  <!-- Téléphone -->
-  <div class="form-group">
-    <input type="tel" name="Téléphone" placeholder="01 23 45 67">
-  </div>
+      {/* Email */}
+      <div className="form-group">
+        <input
+          type="email"
+          name="email"
+          required
+          placeholder="Votre email"
+        />
+      </div>
 
-  <!-- Sujet -->
-  <div class="form-group">
-    <select name="Sujet" required>
-      <option value="">Choisir un sujet</option>
-      <option value="Prendre rendez-vous">Prendre rendez-vous</option>
-      <option value="Informations">Informations</option>
-      <option value="Autre">Autre</option>
-    </select>
-  </div>
+      {/* Message */}
+      <div className="form-group">
+        <textarea
+          name="message"
+          required
+          placeholder="Votre message"
+        ></textarea>
+      </div>
 
-  <!-- Message -->
-  <div class="form-group">
-    <textarea name="Message" required placeholder="Décrivez votre demande..."></textarea>
-  </div>
+      {/* Redirection vers la page "merci" après l'envoi */}
+      <input
+        type="hidden"
+        name="_next"
+        value="https://skh001.github.io/wissnails/merci.html"
+      />
 
-  <!-- Options cachées -->
-  <input type="hidden" name="_captcha" value="false">
-  <input type="hidden" name="_template" value="table">
-  <input type="hidden" name="_next" value="https://skh001.github.io/wissnails/merci.html">
-
-  <!-- Bouton -->
-  <button type="submit" class="btn-submit">✈️ Envoyer le message</button>
-</form>
+      <button type="submit">Envoyer le message</button>
+    </form>
+  );
+}
