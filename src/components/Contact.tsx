@@ -3,8 +3,11 @@ import { Send, MessageCircle, User, Mail, Phone } from 'lucide-react';
 
 const Contact = () => {
 
-  const handleSubmit = () => {
-    alert('Merci pour votre message ! Nous vous répondrons dans les plus brefs délais.');
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    // On affiche l'alerte seulement APRÈS que FormSubmit ait bien pris le message
+    setTimeout(() => {
+      alert('Merci pour votre message ! Nous vous répondrons dans les plus brefs délais.');
+    }, 300);
   };
 
   return (
@@ -73,8 +76,7 @@ const Contact = () => {
               >
                 <input type="hidden" name="_captcha" value="false" />
                 <input type="hidden" name="_subject" value="Nouveau message de contact" />
-                {/* Optional: redirect */}
-                {/* <input type="hidden" name="_next" value="https://yourwebsite.com/thank-you" /> */}
+                <input type="hidden" name="_next" value="https://wissima.fr/" />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
