@@ -1,183 +1,151 @@
-import React from 'react';
-import { Send, MessageCircle, User, Mail, Phone } from 'lucide-react';
+import React, { useState } from "react";
+import { Phone, Mail, MessageCircle, Send, User } from "lucide-react";
 
-const Contact = () => {
+export default function Contact() {
+  const [showPopup, setShowPopup] = useState(false);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    // On affiche l'alerte seulement APRÈS que FormSubmit ait bien pris le message
-    setTimeout(() => {
-      alert('Merci pour votre message ! Nous vous répondrons dans les plus brefs délais.');
-    }, 300);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+
+    try {
+      await fetch("https://formsubmit.co/ggbrocs@gmail.com", {
+        method: "POST",
+        body: new FormData(form),
+      });
+
+      form.reset();
+      setShowPopup(true);
+      setTimeout(() => setShowPopup(false), 5000);
+    } catch (error) {
+      console.error("Error sending form:", error);
+    }
   };
 
   return (
-    <section id="contact" className="py-20 bg-gradient-to-b from-white to-rose-50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-light text-gray-800 mb-6">
-            Contactez-nous
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Une question ? Un besoin particulier ? N'hésitez pas à nous contacter. 
-            Notre équipe sera ravie de vous renseigner et de vous conseiller.
-          </p>
-        </div>
+    <section className="py-16 bg-pink-50">
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="bg-white rounded-2xl shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-2">
+          {/* LEFT PANEL */}
+          <div className="bg-gradient-to-br from-rose-500 to-pink-600 p-8 lg:p-12 text-white flex flex-col justify-center space-y-6">
+            <h2 className="text-2xl font-semibold">Parlons de vos ongles</h2>
+            <p className="opacity-90">
+              Que vous souhaitiez un rendez-vous, des informations sur nos services
+              ou des conseils personnalisés, nous sommes là pour vous accompagner.
+            </p>
 
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-          <div className="grid grid-cols-1 lg:grid-cols-2">
-            <div className="bg-gradient-to-br from-rose-500 to-pink-600 p-8 lg:p-12 text-white">
-              <h3 className="text-2xl font-semibold mb-6">
-                Parlons de vos ongles
-              </h3>
-              <p className="mb-8 opacity-90">
-                Que vous souhaitiez un rendez-vous, des informations sur nos services 
-                ou des conseils personnalisés, nous sommes là pour vous accompagner.
-              </p>
-              
-              <div className="space-y-6">
-                <div className="flex items-center space-x-4">
-                  <div className="bg-white/20 p-3 rounded-full">
-                    <Phone className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <p className="font-medium">Téléphone</p>
-                    <p className="opacity-90">07 60 85 43 29</p>
-                  </div>
+            <div className="space-y-4">
+              <div className="flex items-center space-x-4">
+                <div className="bg-white/20 p-3 rounded-full">
+                  <Phone className="w-5 h-5" />
                 </div>
-                
-                <div className="flex items-center space-x-4">
-                  <div className="bg-white/20 p-3 rounded-full">
-                    <Mail className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <p className="font-medium">Email</p>
-                    <p className="opacity-90">contact@wissima.fr</p>
-                  </div>
+                <div>
+                  <p className="font-medium">Téléphone</p>
+                  <p className="opacity-90">07 60 85 43 29</p>
                 </div>
-                
-                <div className="flex items-center space-x-4">
-                  <div className="bg-white/20 p-3 rounded-full">
-                    <MessageCircle className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <p className="font-medium">Réponse garantie</p>
-                    <p className="opacity-90">Sous 24h ouvrées</p>
-                  </div>
+              </div>
+
+              <div className="flex items-center space-x-4">
+                <div className="bg-white/20 p-3 rounded-full">
+                  <Mail className="w-5 h-5" />
+                </div>
+                <div>
+                  <p className="font-medium">Email</p>
+                  <p className="opacity-90">contact@wissima.fr</p>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-4">
+                <div className="bg-white/20 p-3 rounded-full">
+                  <MessageCircle className="w-5 h-5" />
+                </div>
+                <div>
+                  <p className="font-medium">Réponse garantie</p>
+                  <p className="opacity-90">Sous 24h ouvrées</p>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div className="p-8 lg:p-12">
-              <form
-                action="https://formsubmit.co/el/naledo"
-                method="POST"
-                className="space-y-6"
-                onSubmit={handleSubmit}
+          {/* RIGHT PANEL - FORM */}
+          <div className="p-8 lg:p-12">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Full Name + Email + Phone */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Nom complet"
+                  required
+                  className="w-full border border-pink-200 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-pink-400"
+                />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  required
+                  className="w-full border border-pink-200 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-pink-400"
+                />
+                <input
+                  type="text"
+                  name="phone"
+                  placeholder="Téléphone"
+                  className="w-full border border-pink-200 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-pink-400"
+                />
+              </div>
+
+              {/* Subject */}
+              <select
+                name="subject"
+                required
+                className="w-full border border-pink-200 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-pink-400"
               >
-                <input type="hidden" name="_captcha" value="false" />
-                <input type="hidden" name="_subject" value="Nouveau message de contact" />
-                <input type="hidden" name="_next" value="https://wissima.fr/" />
+                <option value="">Choisir un sujet</option>
+                <option value="rendez-vous">Prise de rendez-vous</option>
+                <option value="information">Demande d'information</option>
+                <option value="tarif">Question sur les tarifs</option>
+                <option value="autre">Autre</option>
+              </select>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                      Nom complet *
-                    </label>
-                    <div className="relative">
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        required
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-                        placeholder="Votre nom"
-                      />
-                      <User className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" />
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                      Email *
-                    </label>
-                    <div className="relative">
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        required
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-                        placeholder="votre@email.com"
-                      />
-                      <Mail className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" />
-                    </div>
-                  </div>
-                </div>
+              {/* Message */}
+              <textarea
+                name="message"
+                placeholder="Décrivez votre demande..."
+                rows={6}
+                required
+                className="w-full border border-pink-200 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-pink-400"
+              ></textarea>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                      Téléphone
-                    </label>
-                    <div className="relative">
-                      <input
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-                        placeholder="01 23 45 67 89"
-                      />
-                      <Phone className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" />
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                      Sujet *
-                    </label>
-                    <select
-                      id="subject"
-                      name="subject"
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-                    >
-                      <option value="">Choisir un sujet</option>
-                      <option value="rendez-vous">Prise de rendez-vous</option>
-                      <option value="information">Demande d'information</option>
-                      <option value="tarif">Question sur les tarifs</option>
-                      <option value="autre">Autre</option>
-                    </select>
-                  </div>
-                </div>
+              {/* Hidden */}
+              <input type="hidden" name="_captcha" value="false" />
 
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                    Message *
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    required
-                    rows={4}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent resize-none"
-                    placeholder="Décrivez votre demande..."
-                  ></textarea>
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-rose-500 to-pink-500 text-white py-3 px-6 rounded-lg hover:from-rose-600 hover:to-pink-600 transition-all duration-300 flex items-center justify-center space-x-2 transform hover:scale-105"
-                >
-                  <Send className="w-5 h-5" />
-                  <span>Envoyer le message</span>
-                </button>
-              </form>
-            </div>
+              {/* Submit */}
+              <button
+                type="submit"
+                className="w-full bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 rounded-xl transition-colors flex items-center justify-center space-x-2"
+              >
+                <Send className="w-5 h-5" />
+                <span>Envoyer le message</span>
+              </button>
+            </form>
           </div>
         </div>
+
+        {/* Popup */}
+        {showPopup && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40">
+            <div className="bg-white rounded-2xl shadow-lg p-8 text-center animate-bounce">
+              <h3 className="text-2xl font-bold text-pink-600 mb-2">
+                Merci 💖
+              </h3>
+              <p className="text-gray-600">
+                Votre message a bien été envoyé !  
+                Nous revenons vers vous très vite ✨
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
-};
-
-export default Contact;
+}
